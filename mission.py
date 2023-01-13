@@ -1,10 +1,14 @@
 import random
-secret = random.randint(1, 10)
-guess  = random.randint(1, 10)
+small = bool(random.randint(0, 1))  # 랜덤하게 True나 False 값을 부여한다.
+green = bool(random.randint(0, 1))
 
-if guess < secret:
-    print('too low')
-elif guess > secret:
-    print('too high')
+if small:
+    if green:
+        print('pea')
+    else:
+        print('cherry')
 else:
-    print('just right')
+    if green:
+        print('watermelon')
+    else:
+        print('pumpkin')
