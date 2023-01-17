@@ -15,7 +15,7 @@ print(f'the word "{word}" is "{e2f[word]}" in French')
 
 # 8.3
 print('\n8.3')
-f2e = {v: k for v, k in e2f.items()}
+f2e = {v: k for k, v in e2f.items()}
 print(f'f2e = {f2e}')
 
 # 8.4
@@ -58,7 +58,17 @@ print('\n8.10')
 squares = {x: x*x for x in range(10)}
 print(f'squares = {squares}')
 
-# 8.11 ~ 8.12 생략
+# 8.11
+print('\n8.11')
+s_e_t = {x for x in range(10) if x % 2}
+print(f'set = {s_e_t}')
+
+# 8.12
+print('\n8.12')
+gen = (f'Got {x}' for x in range(10))
+
+for x in gen:
+    print(x)
 
 # 8.13
 print('\n8.13')
