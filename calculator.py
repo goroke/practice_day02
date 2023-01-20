@@ -1,102 +1,64 @@
-class calc:
-    SYMBOLS = ('+', '-', '*', '/', '**')
-    DIGITS = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+def calculate(expression):
+    DIGITS = '1234567890.'
+    OPERS = ('*', '/', '+', '-')
+    OPER_COMMAND = {'+': lambda x, y: x + y,
+                    '-': lambda x, y: x - y,
+                    '*': lambda x, y: x * y,
+                    '/': lambda x, y: x / y}
 
-    def __init__(self):
-        self._query = ['0']
+    # 숫자와 연산자를 분리하여 저장할 곳 ( 1+2 → [1, '+', 2] )
+    buffer = []
 
-    @staticmethod
-    def is_num(expression):
-        try:
-            float(expression)
-        except ValueError:
-            return False
+    # 문자열 전체를 순환하며 buffer를 채운다.
+    start_point = end_point = 0
+    while end_point < len(expression):
+
+        # 현재 부분이 숫자인 경우 숫자 부분을 감지해서 buffer 에 추가
+        if (char := expression[start_point]) in DIGITS:
+            while end_point < len(expression) - 1 and expression[end_point + 1] in DIGITS:
+                end_point += 1
+
+            # print(char)
+            buffer.append(expression[start_point:end_point + 1])
+
+        # 괄호인 경우 괄호 안 내용 전부를 buffer 에 추가
+        elif char == '(':
+            while (bracket_area := expression[start_point:end_point + 1]).count('(') != bracket_area.count(')'):
+                end_point += 1
+
+            # 괄호 안의 내용은 별도로 계산하도록 한다
+            buffer.append(calculate(bracket_area[1:-1]))
+
+        # 연산자인 경우
+        # 2글자 이상의 연산자가 나오면 변경해야 함
+        elif char in OPERS:
+            buffer.append(char)
+
+        # 이도저도 아닌 경우는 잘못된 입력이므로 에러가 발생해야 한다.
         else:
-            return True
+            raise ValueError
 
-    def _signal(self, sign):
-        if self._current_input in calc.SYMBOLS:
-            self._current_input = sign
-        else:
-            self._query.append(sign)
+        # 내용을 buffer 에 추가했으면, 다음 내용을 buffer 에 추가하기 위해 준비
+        start_point = end_point = end_point + 1
 
-    def plus(self):
-        self._signal('+')
+        # print(buffer)
 
-    def minus(self):
-        self._signal('-')
+    # 부호로 시작하는 경우도 있을 수 있으니, 앞에 0을 넣어서 정상적인 덧셈/뺄셈 연산을 수행하게 한다.
+    if buffer[0] in ('+', '-'):
+        buffer.insert(0, 0)
 
-    def multiply(self):
-        self._signal('*')
+    # buffer 에 담긴 내용을 전부 계산 (계산이 끝나면 단 1개의 계산 결과가 담긴 리스트가 될 것이다.)
+    while len(buffer) > 1:
+        for oper in OPERS:
+            while buffer.count(oper):
+                idx = buffer.index(oper)
 
-    def divide(self):
-        self._signal('/')
+                # 자신과 양 옆을 계산해서 결과물로 치환 ( [1, '+', 2] → [3] )
+                buffer[idx-1:idx+2] = [OPER_COMMAND[oper](float(buffer[idx-1]), float(buffer[idx+1]))]
+                # print(buffer)
 
-    def power(self):
-        self._signal('**')
-
-    def digit(self, n):
-        if n not in calc.DIGITS:
-            raise ValueError(f'계산기에 "{n}" 버튼이 어딨습니까 휴먼')
-
-        if calc.is_num(self._current_input):
-            # 현재 항이 0 이면, 그냥 현재 숫자로 대체하고, 아니면 숫자를 추가한다.
-            self._current_input = (self._current_input if self._current_input != '0' else '') + str(n)
-
-        elif self._current_input in calc.SYMBOLS:
-            self._query.append(str(n))
-
-    def dot(self):
-        if calc.is_num(self._current_input):
-            # 현재 항이 실수이고, 점이 없을 때만 점을 찍는다.
-            if '.' not in self._current_input:
-                self._current_input += '.'
-
-        elif self._current_input in calc.SYMBOLS:
-            # 아무것도 없는데 점만 찍으면 부자연스러우므로 0을 같이 적어준다.
-            self._query.append('0.')
-
-    def bracket(self, open=True):
-        # 힘들어서 이건 나중에
-        pass
-
-    def calculate(self):
-        # 기호로 끝나버리는 경우는 그 기호를 빼 버릴 것
-        if self._current_input in calc.SYMBOLS:
-            self._query.pop()
-
-        return eval(self.expression)
-
-    @property
-    def expression(self):
-        return ''.join(self._query)
-
-    @property
-    def _current_input(self):
-        return self._query[-1]
-
-    @_current_input.setter
-    def _current_input(self, v):
-        self._query[-1] = v
-
-    def __str__(self):
-        return self.expression
+    # 계산 결과 리턴
+    return buffer[0]
 
 
-a = calc()
-
-a.digit(3)
-a.plus()
-a.digit(9)
-a.dot()
-a.digit(3)
-a.multiply()
-a.digit(1)
-a.digit(0)
-a.divide()
-a.digit(5)
-a.power()
-a.digit(3)
-
-print(a)
-print(a.calculate())
+print(calculate('(1+2+3+4+5)*6-7-8*(9/10)'))
