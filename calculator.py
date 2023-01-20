@@ -1,6 +1,6 @@
 def calculate(expression):
     DIGITS = '1234567890.'
-    OPERS = ('*', '/', '+', '-')
+    OPERS_PRIORITY = [('/', '*'), ('+', '-')]
     OPER_COMMAND = {'+': lambda x, y: x + y,
                     '-': lambda x, y: x - y,
                     '*': lambda x, y: x * y,
@@ -31,7 +31,7 @@ def calculate(expression):
 
         # 연산자인 경우
         # 2글자 이상의 연산자가 나오면 변경해야 함
-        elif char in OPERS:
+        elif char in OPER_COMMAND:
             buffer.append(char)
 
         # 이도저도 아닌 경우는 잘못된 입력이므로 에러가 발생해야 한다.
@@ -49,16 +49,25 @@ def calculate(expression):
 
     # buffer 에 담긴 내용을 전부 계산 (계산이 끝나면 단 1개의 계산 결과가 담긴 리스트가 될 것이다.)
     while len(buffer) > 1:
-        for oper in OPERS:
-            while buffer.count(oper):
-                idx = buffer.index(oper)
+        for opers in OPERS_PRIORITY:
+            idx = 0
 
-                # 자신과 양 옆을 계산해서 결과물로 치환 ( [1, '+', 2] → [3] )
-                buffer[idx-1:idx+2] = [OPER_COMMAND[oper](float(buffer[idx-1]), float(buffer[idx+1]))]
-                # print(buffer)
+            while True:
+                idx += 1
+
+                # 끝까지 뒤져봤음에도 없으면 해당 연산 우선순위는 연산 완료로 간주
+                if idx >= len(buffer):
+                    break
+
+                if (oper := buffer[idx]) in opers:
+                    # 자신과 양 옆을 계산해서 결과물로 치환 ( [1, '+', 2] → [3] )
+                    buffer[idx-1:idx+2] = [OPER_COMMAND[oper](float(buffer[idx-1]), float(buffer[idx+1]))]
+
+                    # 치환 시 2칸이 사라지므로, idx 값도 2칸 당겨온다.
+                    idx -= 2
 
     # 계산 결과 리턴
     return buffer[0]
 
 
-print(calculate('(1+2+3+4+5)*6-7-8*(9/10)'))
+print(calculate('(1+3.42/23*342-343+234/14.2+(24+4*5*2/6))+2*((1+2)+(6/8)*30)'))
