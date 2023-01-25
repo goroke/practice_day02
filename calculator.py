@@ -55,7 +55,7 @@ def calculate(expression):
             while True:
                 idx += 1
 
-                # 끝까지 뒤져봤음에도 없으면 해당 연산 우선순위는 연산 완료로 간주
+                # 끝까지 뒤져봤음에도 없으면 해당 연산 우선순위는 끝난 것으로 간주
                 if idx >= len(buffer):
                     break
 
@@ -71,3 +71,4 @@ def calculate(expression):
 
 
 print(calculate('(1+3.42/23*342-343+234/14.2+(24+4*5*2/6))+2*((1+2)+(6/8)*30)'))
+print(calculate('1+3+5+3+4*2*3*2*(3+2+1+3-4-2/2+1)'))
