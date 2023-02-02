@@ -20,8 +20,9 @@ class Robot:
         self.claw = Claw()
         self.smartphone = SmartPhone()
 
+    def does(self):
+        for part in 'laser', 'claw', 'smartphone':
+            print(f'{part}: {self.__getattribute__(part).does()}')
 
-robot = Robot()
-print(robot.laser.does())
-print(robot.claw.does())
-print(robot.smartphone.does())
+
+(robot := Robot()).does()
