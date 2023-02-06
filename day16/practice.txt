@@ -1,0 +1,63 @@
+* Chapter 05
+
+1.
+정답: ③, ④
+③ 헤드가 없으면 리스트에 접근할 수가 없으므로 있어야 한다.
+④ 마지막 노드의 링크는 헤드를 참조한다.
+
+2.
+node1.link = node1
+
+3.
+node2.link = node4.link
+del(node3)
+
+4.
+정답: ②
+마지막 노드는 헤드를 참조하기 때문에 current.link == head 가 된다.
+
+5.
+current = head  # ①
+head = head.link
+last = head
+while last.link != current:
+    last = last.link  # ②
+last.link = head  # ③
+
+6.
+def findNode(findData) :
+    global memory, head, current, pre
+    current = head
+    if current.data = findData:
+        return current  # ①
+    while current.link != head:  # ②
+        current = current.link  # ③
+        if current.data == findData:
+            return current
+        current = current.link
+    return Node()
+
+
+
+* Chapter 06
+
+1. 정답: ④
+스택은 나중에 들어간 요소가 가장 먼저 나온다(Last In, First Out).
+
+2. top(현재 인덱스), push(새 값 넣기), pop(값 제거하기)
+
+3.
+① top = top + 1  # 데이터가 추가됐으니 인덱스도 늘어난다.
+② top = top - 1  # 데이터가 삭제됐으니 인덱스는 줄어든다.
+
+4. 정답: ②
+데이터가 (SIZE-1)번 자리까지 있는 경우가 꽉 찬 경우이므로,
+top == SIZE-1 이 맞다.
+
+5. 정답: ②
+top == 0 이라는 것은 0번 자리에 데이터가 있다는 뜻이다.
+아무것도 없는 스택은 top == -1 을 만족한다.
+
+6.
+① return None
+② return stack[top]
