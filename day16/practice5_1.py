@@ -1,4 +1,4 @@
-# 노드 관련 코드는 node.py 에 따로 작성했습니다.
+# 노드 관련 코드는 data_structure.py 에 따로 작성했습니다.
 from node import Node
 from random import randint
 
