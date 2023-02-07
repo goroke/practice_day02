@@ -192,22 +192,24 @@ class BinaryTree:
         if node is None: node = self._root
         return_list = []
 
-        def inner_process():
+        def inner_process(current_node):
             nonlocal return_list
-            if node.left: inner_process(node.left)
-            return_list.append(node.data)
-            if node.right: inner_process(node.right)
+            if current_node.left: inner_process(current_node.left)
+            return_list.append(current_node.data)
+            if current_node.right: inner_process(current_node.right)
 
+        inner_process(node)
         return return_list
 
     def postorder(self, node=None):
         if node is None: node = self._root
         return_list = []
 
-        def inner_process():
+        def inner_process(current_node):
             nonlocal return_list
-            if node.left: inner_process(node.left)
-            if node.right: inner_process(node.right)
-            return_list.append(node.data)
+            if current_node.left: inner_process(current_node.left)
+            if current_node.right: inner_process(current_node.right)
+            return_list.append(current_node.data)
 
+        inner_process(node)
         return return_list

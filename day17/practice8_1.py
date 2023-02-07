@@ -9,11 +9,12 @@ if __name__ == "__main__":
 
     products_tree = BinaryTree()
     for item in sold:
-        #print(item)
         products_tree.add(item)
 
     print('오늘 판매된 종류(중복X)--> ', end=' ')
-    for item in products_tree.preorder():
+
+    # 이진 트리를 중위 순회하면 오름차순 정렬이 된다.
+    for item in products_tree.inorder():
         print(item, end=' ')
 
     print()
