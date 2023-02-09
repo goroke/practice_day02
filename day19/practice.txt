@@ -109,4 +109,29 @@ def BubbleSort(ary):
 최악의 경우에는 O(n^2) 의 시간 복잡도를 가진다.
 하지만 이는 극단적인 경우이고, 평균적으로는 n log n 차원의 데이터를 처리한다.
 
-6. 
+6.
+def BubbleSort(ary) :
+    n = len(ary)
+    for end in range(n-1, 0, -1) :
+        changeYN = False
+        for cur in range(0, end) :
+            if (ary[cur] > ary[cur+1) :
+                ary[cur], ary[cur+1] = ary[cur+1], ary[cur]
+                changeYN = True
+        if not changeYN:
+            break
+   return ary
+
+7.
+def quickSort(ary) :
+    n = len(ary)
+    if n <= 1 :
+        return ary
+    pivot = ary[n // 2]
+    leftAry, rightAry = [], []
+    for num in ary:
+        if num < pivot:
+            leftAry.append(num)
+        elif num > pivot:
+            rightAry.append(num)
+    return quickSort(leftAry) + [pivot] + quickSort(rightAry)
