@@ -1,0 +1,112 @@
+* Chapter 10: Recursion
+
+1. 정답: ④
+재귀 호출은 예약어가 아닌 함수 자기 자신의 이름을 쓰면 된다.
+
+2.
+def addNumber(num) :
+    if num <= 10 :
+        return 10  # ①
+    return num + addNumber(num-1)  # ②
+
+print(addNumber(100))
+
+3.
+def factorial(num):
+    if num <= 1  # ①
+        return 1
+    retVal = factorial(num-1)  # ②
+    return num * retVal  # ③
+
+4.
+def printStar(n) :
+    if n:
+        print('★'*n)
+        printStar(n-1)
+
+printStar(5)
+
+5.
+import random
+def arySum(arr, n) :
+    if n <= 0 :
+        return arr[0]
+    return arySum(arr, n-1) + arr[n]
+
+...
+
+6. def fibo(n) :
+    if n == 0 :
+        return 0
+    elif n == 1 :
+        return 1
+    else :
+        return fibo(n-2) + fibo(n-1)
+
+...
+
+
+* Chapter 10: Sorting(Selection/Insertion)
+
+1. 정답: ④
+어학 사전은 오름차순 정렬되어 있다.
+
+2. 정답: ②
+
+3. 정답: ④
+개념 자체는 직관적이지만, 시간 복잡도 O(n^2) 정도로, 느린 편이다.
+
+4.
+def findMinIdx(ary):
+    minIdx = 0
+    for i in range(0, len(ary)-1) :
+        if (ary[minIdx] > ary[i]) :
+            minIdx = i
+        return minIdx
+
+5. 정답: ②
+python 에서는 a, b = b, a 로 구현할 수 있다.
+
+6. 정답: ③
+이중 루프를 돌기 때문에 O(n^2) 의 시간 복잡도를 갖는다.
+
+7. 정답: ④
+속도 자체는 시간 복잡도 O(n^2) 로 빠른 편이 아니다.
+
+8.
+def findInsertIdx(ary, data) :
+    findIdx = -1
+    for i in range(0, len(ary)) :
+        if (ary[i] > data) :
+            findIdx = i
+            break
+    if findIdx == -1 :
+        return len(ary)
+    else:
+        return findIdx
+
+
+* Chapter 11: Sorting(Bubble/Quick)
+1. 정답: ④
+시간 복잡도 자체는 같지만, 어느 정도 정렬이 완료된 배열에서는 강점을 보이므로, 성능이 나쁘다고 할 수는 없다.
+
+2.
+def BubbleSort(ary):
+    n = len(ary)
+    for end in range(n-1, 0, -1) :
+        for cur in range(0, end) :
+            if(ary[cur] > ary[cur+1]):
+                ary[cur], ary[cur+1] = ary[cur+1], ary[cur]
+    return ary
+
+3. 정답: ①
+버블 정렬은 데이터가 거의 다 정렬된 경우에 좋은 성능을 보인다.
+
+4. 정답: ④
+다수의 데이터를 처리할 때 삽입 정렬이나 선택 정렬에 비해 월등한 성능을 보여준다.
+
+5. 정답: ③
+최악의 경우에는 O(n^2) 의 시간 복잡도를 가진다.
+하지만 이는 극단적인 경우이고, 평균적으로는 n log n 차원의 데이터를 처리한다.
+
+6. 
